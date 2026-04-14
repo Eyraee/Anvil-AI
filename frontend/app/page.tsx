@@ -74,13 +74,13 @@ export default function Home() {
 
   const checkServerStatus = async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/health");
+      const res = await fetch("https://anvil-ai-backend.onrender.com/api/health");
       setIsOnline(res.ok);
     } catch { setIsOnline(false); }
   };
 
   const handleExportCSV = () => {
-    window.open("http://localhost:8000/api/export", "_blank");
+    window.open("https://anvil-ai-backend.onrender.com/api/export", "_blank");
     addToast("Generating CSV Export...");
   };
 
@@ -104,7 +104,7 @@ export default function Home() {
     setIsLoading(true); setOutputText(""); setIsPreview(false);
     try {
       const endpoint = activeTab === "enhance" ? "enhance" : "humanize";
-      const response = await fetch(`http://localhost:8000/api/${endpoint}`, {
+      const response = await fetch(`https://anvil-ai-backend.onrender.com/api/${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: inputText, tone, length }),
@@ -123,7 +123,7 @@ export default function Home() {
     if (!outputText) return;
     navigator.clipboard.writeText(outputText);
     addToast("Logged to Dataset");
-    fetch(`http://localhost:8000/api/feedback`, {
+    fetch(`https://anvil-ai-backend.onrender.com/api/feedback`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ original_input: inputText, generated_output: originalAiOutput, user_edited_output: outputText, rating: 1, task_type: activeTab }),
